@@ -44,6 +44,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget _displayTag(String tagName, Map metadata) {
+    String display = "$tagName";
+    if (metadata["collaborators"].isNotEmpty) {
+      display += " ${metadata['collaborators']}";
+    }
+    return Text(display);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,18 +65,18 @@ class _MyHomePageState extends State<MyHomePage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading');
-            Set tags =
-                snapshot.data.documents.first.data()["tags"].keys.toSet();
-
+            Map tags = snapshot.data.documents.first.data()["tags"];
+            Set tagNames = tags.keys.toSet();
             return ListView.builder(
                 itemExtent: 80,
-                itemCount: tags.length,
+                itemCount: tagNames.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                       title: Row(
                     children: [
                       Expanded(
-                        child: Text(tags.elementAt(index).toString()),
+                        child: _displayTag(tagNames.elementAt(index),
+                            tags[tagNames.elementAt(index)]),
                       )
                     ],
                   ));
