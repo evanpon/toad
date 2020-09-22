@@ -57,19 +57,22 @@ class _MyHomePageState extends State<MyHomePage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading');
+            Set tags =
+                snapshot.data.documents.first.data()["tags"].keys.toSet();
 
             return ListView.builder(
                 itemExtent: 80,
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) => ListTile(
-                        title: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                              snapshot.data.documents[index].data().toString()),
-                        )
-                      ],
-                    )));
+                itemCount: tags.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Row(
+                    children: [
+                      Expanded(
+                        child: Text(tags.elementAt(index).toString()),
+                      )
+                    ],
+                  ));
+                });
           }),
     );
   }
