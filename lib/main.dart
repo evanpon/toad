@@ -21,15 +21,21 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-              ),
-              home: HomeScreen(), //MyHomePage(title: 'Flutter Demo Home Page'),
-            );
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                ),
+                home: HomeScreen(),
+                routes: generateRouteTable());
           }
           return const Text("Loading", textDirection: TextDirection.ltr);
         });
+  }
+
+  Map<String, WidgetBuilder> generateRouteTable() {
+    return {
+      '/tags': (BuildContext context) => HomeScreen(),
+    };
   }
 }
